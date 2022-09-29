@@ -3,7 +3,7 @@ module github.com/ArtemVoronov/indefinite-studies-subscriptions-service
 go 1.18
 
 require (
-	github.com/ArtemVoronov/indefinite-studies-utils v0.0.0-20220928110426-3badc8b64f2d
+	github.com/ArtemVoronov/indefinite-studies-utils v0.0.0-20220929143043-d28d5d441390
 	github.com/gin-contrib/expvar v0.0.1
 	github.com/gin-gonic/gin v1.8.1
 	github.com/sirupsen/logrus v1.9.0
@@ -11,6 +11,7 @@ require (
 )
 
 require (
+	github.com/confluentinc/confluent-kafka-go v1.9.2 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/go-playground/locales v0.14.0 // indirect
 	github.com/go-playground/universal-translator v0.18.0 // indirect
@@ -30,7 +31,7 @@ require (
 	golang.org/x/net v0.0.0-20210428140749-89ef3d95e781 // indirect
 	golang.org/x/sys v0.0.0-20220715151400-c0bba94af5f8 // indirect
 	golang.org/x/text v0.3.6 // indirect
-	google.golang.org/genproto v0.0.0-20200526211855-cb27e3aa2013 // indirect
+	google.golang.org/genproto v0.0.0-20220503193339-ba3ae3f07e29 // indirect
 	google.golang.org/protobuf v1.28.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 )

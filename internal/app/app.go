@@ -6,7 +6,9 @@ import (
 	"net/http"
 	"os"
 
+	subscriptionsGrpcApi "github.com/ArtemVoronov/indefinite-studies-subscriptions-service/internal/api/grpc/v1/subscriptions"
 	"github.com/ArtemVoronov/indefinite-studies-subscriptions-service/internal/api/rest/v1/ping"
+	subscriptionRestApi "github.com/ArtemVoronov/indefinite-studies-subscriptions-service/internal/api/rest/v1/subscriptions"
 	"github.com/ArtemVoronov/indefinite-studies-subscriptions-service/internal/services"
 	"github.com/ArtemVoronov/indefinite-studies-utils/pkg/app"
 	"github.com/ArtemVoronov/indefinite-studies-utils/pkg/services/auth"
@@ -65,11 +67,14 @@ func createRestApi(logger *logrus.Logger) *gin.Engine {
 	{
 		authorized.GET("/subscriptions/debug/vars", app.RequiredOwnerRole(), expvar.Handler())
 		authorized.GET("/subscriptions/safe-ping", app.RequiredOwnerRole(), ping.SafePing)
+
+		authorized.POST("/subscriptions/event", app.RequiredOwnerRole(), subscriptionRestApi.AddEvent)
 	}
 	return router
 }
 
 func createGrpcApi(s *grpc.Server) {
+	subscriptionsGrpcApi.RegisterServiceServer(s)
 }
 
 func authenicate(token string) (*auth.VerificationResult, error) {

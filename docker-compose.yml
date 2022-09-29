@@ -22,41 +22,38 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
 
-  api:
-    build: .
-    deploy:
-      mode: replicated
-      replicas: 2
-    ports:
-      - "3015-3016:3005"
-      - "50061-50062:50051"
+  # api:
+  #   build: .
+  #   deploy:
+  #     mode: replicated
+  #     replicas: 2
+  #   ports:
+  #     - "3015-3016:3005"
+  #     - "50061-50062:50051"
 
-  nginx:
-    image: nginx
-    volumes:
-    - ./configs/templates/nginx:/etc/nginx/templates
-    ports:
-    - "100010:80"
-    environment:
-    - HOST_API=${HOST_API}
-    depends_on:
-      - api
+  # nginx:
+  #   image: nginx
+  #   volumes:
+  #   - ./configs/templates/nginx:/etc/nginx/templates
+  #   ports:
+  #   - "100010:80"
+  #   environment:
+  #   - HOST_API=${HOST_API}
+  #   depends_on:
+  #     - api
 
-  nginxGRPC:
-    image: nginx
-    volumes:
-      - ./configs/templates/nginxGRPC:/etc/nginx/templates
-      - ./configs/tls:/etc/nginx/certs
-    ports:
-      - "10011:1443"
-    environment:
-      - HOST_API=${HOST_API}
-    depends_on:
-      - api
+  # nginxGRPC:
+  #   image: nginx
+  #   volumes:
+  #     - ./configs/templates/nginxGRPC:/etc/nginx/templates
+  #     - ./configs/tls:/etc/nginx/certs
+  #   ports:
+  #     - "10011:1443"
+  #   environment:
+  #     - HOST_API=${HOST_API}
+  #   depends_on:
+  #     - api
 
-volumes:
-  redis-volume:
-    driver: local
 networks:
   default:
     name: indefinite-studies-subscriptions-service-network
