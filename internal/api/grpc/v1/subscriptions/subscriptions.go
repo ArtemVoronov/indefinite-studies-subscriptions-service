@@ -2,9 +2,11 @@ package subscriptions
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 
 	"github.com/ArtemVoronov/indefinite-studies-subscriptions-service/internal/services"
+	"github.com/ArtemVoronov/indefinite-studies-utils/pkg/services/kafka"
 	"github.com/ArtemVoronov/indefinite-studies-utils/pkg/services/subscriptions"
 	"google.golang.org/grpc"
 )
@@ -25,8 +27,24 @@ func (s *SubscriptionsServiceServer) PutEvent(ctx context.Context, in *subscript
 	return &subscriptions.PutEventReply{}, nil
 }
 
-func (s *SubscriptionsServiceServer) GetEvent(ctx context.Context, in *subscriptions.GetEventRequest) (*subscriptions.GetEventReply, error) {
-	// TODO
-	// return &subscriptions.GetEventReply{}, nil
-	return nil, fmt.Errorf("not implemented")
+func (s *SubscriptionsServiceServer) PutSendEmailEvent(ctx context.Context, in *subscriptions.PutSendEmailEventRequest) (*subscriptions.PutSendEmailEventReply, error) {
+	dto := kafka.SendEmailEvent{
+		Sender:    in.GetSender(),
+		Recepient: in.GetRecepient(),
+		Subject:   in.GetSubject(),
+		Body:      in.GetBody(),
+	}
+	data, err := json.Marshal(dto)
+	if err != nil {
+		return nil, fmt.Errorf("unable to add SEND_EMAIL event: %s", err)
+	}
+
+	err = services.Instance().KafkaProducer().CreateMessage(kafka.EVENT_TYPE_SEND_EMAIL, string(data))
+	if err != nil {
+		return nil, fmt.Errorf("unable to add SEND_EMAIL event: %s", err)
+	}
+	if err != nil {
+		return nil, fmt.Errorf("unable to add SEND_EMAIL event: %s", err)
+	}
+	return &subscriptions.PutSendEmailEventReply{}, nil
 }

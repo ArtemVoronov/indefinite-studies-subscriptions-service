@@ -3,7 +3,7 @@ module github.com/ArtemVoronov/indefinite-studies-subscriptions-service
 go 1.18
 
 require (
-	github.com/ArtemVoronov/indefinite-studies-utils v0.0.0-20220929143043-d28d5d441390
+	github.com/ArtemVoronov/indefinite-studies-utils v0.0.0-20220930065734-57dedf103383
 	github.com/gin-contrib/expvar v0.0.1
 	github.com/gin-gonic/gin v1.8.1
 	github.com/sirupsen/logrus v1.9.0

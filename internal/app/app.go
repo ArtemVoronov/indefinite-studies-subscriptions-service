@@ -69,6 +69,7 @@ func createRestApi(logger *logrus.Logger) *gin.Engine {
 		authorized.GET("/subscriptions/safe-ping", app.RequiredOwnerRole(), ping.SafePing)
 
 		authorized.POST("/subscriptions/event", app.RequiredOwnerRole(), subscriptionRestApi.AddEvent)
+		authorized.POST("/subscriptions/event/email", app.RequiredOwnerRole(), subscriptionRestApi.AddSendEmailEvent)
 	}
 	return router
 }
