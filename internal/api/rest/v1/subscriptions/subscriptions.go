@@ -2,12 +2,12 @@ package subscribrions
 
 import (
 	"encoding/json"
-	"log"
 	"net/http"
 
 	"github.com/ArtemVoronov/indefinite-studies-subscriptions-service/internal/services"
 	"github.com/ArtemVoronov/indefinite-studies-utils/pkg/api"
 	"github.com/ArtemVoronov/indefinite-studies-utils/pkg/api/validation"
+	"github.com/ArtemVoronov/indefinite-studies-utils/pkg/log"
 	"github.com/ArtemVoronov/indefinite-studies-utils/pkg/services/kafka"
 	"github.com/gin-gonic/gin"
 )
@@ -27,7 +27,7 @@ func AddEvent(c *gin.Context) {
 	err := services.Instance().KafkaProducer().CreateMessage(dto.EventType, dto.EventBody)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, "Unable to add event")
-		log.Printf("Unable to add event: %s", err)
+		log.Error("Unable to add event", err.Error())
 		return
 	}
 
@@ -44,14 +44,14 @@ func AddSendEmailEvent(c *gin.Context) {
 	data, err := json.Marshal(dto)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, "Unable to add SEND_EMAIL event")
-		log.Printf("Unable to add SEND_EMAIL event: %s", err)
+		log.Error("Unable to add SEND_EMAIL event", err.Error())
 		return
 	}
 
 	err = services.Instance().KafkaProducer().CreateMessage(kafka.EVENT_TYPE_SEND_EMAIL, string(data))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, "Unable to add SEND_EMAIL event")
-		log.Printf("Unable to add SEND_EMAIL event: %s", err)
+		log.Error("Unable to add SEND_EMAIL event", err.Error())
 		return
 	}
 

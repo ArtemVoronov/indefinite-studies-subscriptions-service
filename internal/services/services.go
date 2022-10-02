@@ -1,10 +1,11 @@
 package services
 
 import (
-	"log"
+	"fmt"
 	"sync"
 
 	"github.com/ArtemVoronov/indefinite-studies-utils/pkg/app"
+	"github.com/ArtemVoronov/indefinite-studies-utils/pkg/log"
 	"github.com/ArtemVoronov/indefinite-studies-utils/pkg/services/auth"
 	kafkaService "github.com/ArtemVoronov/indefinite-studies-utils/pkg/services/kafka"
 	"github.com/ArtemVoronov/indefinite-studies-utils/pkg/utils"
@@ -44,9 +45,20 @@ func createServices() *Services {
 	}
 }
 
-func (s *Services) Shutdown() {
-	s.auth.Shutdown()
-	s.kafkaProducer.Shutdown()
+func (s *Services) Shutdown() error {
+	result := []error{}
+	err := s.auth.Shutdown()
+	if err != nil {
+		result = append(result, err)
+	}
+	err = s.kafkaProducer.Shutdown()
+	if err != nil {
+		result = append(result, err)
+	}
+	if len(result) > 0 {
+		return fmt.Errorf("errors during shutdown: %v", result)
+	}
+	return nil
 }
 
 func (s *Services) Auth() *auth.AuthGRPCService {
