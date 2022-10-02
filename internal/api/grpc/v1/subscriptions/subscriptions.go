@@ -6,6 +6,7 @@ import (
 	"fmt"
 
 	"github.com/ArtemVoronov/indefinite-studies-subscriptions-service/internal/services"
+	"github.com/ArtemVoronov/indefinite-studies-utils/pkg/log"
 	"github.com/ArtemVoronov/indefinite-studies-utils/pkg/services/kafka"
 	"github.com/ArtemVoronov/indefinite-studies-utils/pkg/services/subscriptions"
 	"google.golang.org/grpc"
@@ -24,6 +25,8 @@ func (s *SubscriptionsServiceServer) PutEvent(ctx context.Context, in *subscript
 	if err != nil {
 		return nil, fmt.Errorf("unable to add event: %s", err)
 	}
+	// TODO clean
+	log.Info(fmt.Sprintf("put event: %v", in))
 	return &subscriptions.PutEventReply{}, nil
 }
 
@@ -46,5 +49,7 @@ func (s *SubscriptionsServiceServer) PutSendEmailEvent(ctx context.Context, in *
 	if err != nil {
 		return nil, fmt.Errorf("unable to add SEND_EMAIL event: %s", err)
 	}
+	// TODO clean
+	log.Info(fmt.Sprintf("put event: %v", dto))
 	return &subscriptions.PutSendEmailEventReply{}, nil
 }
