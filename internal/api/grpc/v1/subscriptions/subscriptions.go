@@ -46,9 +46,6 @@ func (s *SubscriptionsServiceServer) PutSendEmailEvent(ctx context.Context, in *
 	if err != nil {
 		return nil, fmt.Errorf("unable to add SEND_EMAIL event: %s", err)
 	}
-	if err != nil {
-		return nil, fmt.Errorf("unable to add SEND_EMAIL event: %s", err)
-	}
 	// TODO clean
 	log.Info(fmt.Sprintf("put event: %v", dto))
 	return &subscriptions.PutSendEmailEventReply{}, nil
