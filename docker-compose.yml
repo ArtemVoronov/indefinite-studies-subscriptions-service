@@ -1,12 +1,12 @@
 version: "3.9"
 services:
   zookeeper:
-      image: confluentinc/cp-zookeeper:latest
-      environment:
-        ZOOKEEPER_CLIENT_PORT: 2181
-        ZOOKEEPER_TICK_TIME: 2000
-      ports:
-        - 22181:2181 
+    image: confluentinc/cp-zookeeper:latest
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - 22181:2181
 
   # TODO: add authenication config
   kafka:
@@ -35,11 +35,11 @@ services:
   nginx:
     image: nginx
     volumes:
-    - ./configs/templates/nginx:/etc/nginx/templates
+      - ./configs/templates/nginx:/etc/nginx/templates
     ports:
-    - "10010:80"
+      - "10010:80"
     environment:
-    - HOST_API=${HOST_API}
+      - HOST_API=${HOST_API}
     depends_on:
       - api
 
