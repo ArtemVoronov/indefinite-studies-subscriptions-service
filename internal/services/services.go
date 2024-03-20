@@ -11,6 +11,10 @@ import (
 	"github.com/ArtemVoronov/indefinite-studies-utils/pkg/utils"
 )
 
+// TODO: refactor this service: it should implement interservice communication betwees services (therid local queues)
+// TODO: move logic of putting SEND_EMAIL event to noticiation service
+// TODO: add directory service (service discovery)
+
 type Services struct {
 	auth          *auth.AuthGRPCService
 	kafkaProducer *kafkaService.KafkaProducerService
