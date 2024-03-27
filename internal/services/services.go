@@ -1,7 +1,7 @@
 package services
 
 import (
-	"fmt"
+	"errors"
 	"sync"
 
 	"github.com/ArtemVoronov/indefinite-studies-utils/pkg/app"
@@ -60,7 +60,7 @@ func (s *Services) Shutdown() error {
 		result = append(result, err)
 	}
 	if len(result) > 0 {
-		return fmt.Errorf("errors during shutdown: %v", result)
+		return errors.Join(result...)
 	}
 	return nil
 }

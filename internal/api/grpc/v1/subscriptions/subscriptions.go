@@ -23,10 +23,8 @@ func RegisterServiceServer(s *grpc.Server) {
 func (s *SubscriptionsServiceServer) PutEvent(ctx context.Context, in *subscriptions.PutEventRequest) (*subscriptions.PutEventReply, error) {
 	err := services.Instance().KafkaProducer().CreateMessage(in.GetEventType(), in.GetEventBody())
 	if err != nil {
-		return nil, fmt.Errorf("unable to add event: %s", err)
+		return nil, fmt.Errorf("unable to add event: %w", err)
 	}
-	// TODO clean
-	log.Info(fmt.Sprintf("put event: %v", in))
 	return &subscriptions.PutEventReply{}, nil
 }
 
@@ -39,12 +37,12 @@ func (s *SubscriptionsServiceServer) PutSendEmailEvent(ctx context.Context, in *
 	}
 	data, err := json.Marshal(dto)
 	if err != nil {
-		return nil, fmt.Errorf("unable to add SEND_EMAIL event: %s", err)
+		return nil, fmt.Errorf("unable to add SEND_EMAIL event: %w", err)
 	}
 
 	err = services.Instance().KafkaProducer().CreateMessage(kafka.EVENT_TYPE_SEND_EMAIL, string(data))
 	if err != nil {
-		return nil, fmt.Errorf("unable to add SEND_EMAIL event: %s", err)
+		return nil, fmt.Errorf("unable to add SEND_EMAIL event: %w", err)
 	}
 	// TODO clean
 	log.Info(fmt.Sprintf("put event: %v", dto))
